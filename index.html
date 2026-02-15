@@ -4,7 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>大学受験 模試・共通テスト対策ガイド & AI学習アシスタント</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
         body {
@@ -221,6 +230,9 @@
                 
                 // マークダウン風のフォーマット処理（簡易）
                 output.innerHTML = text.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                if (window.MathJax) {
+                    MathJax.typesetPromise();
+                }
             } catch (error) {
                 output.innerHTML = `<p class="text-red-500">エラーが発生しました。時間をおいて再度お試しください。</p>`;
             } finally {
