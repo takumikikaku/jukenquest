@@ -13,7 +13,6 @@
         }
       };
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
@@ -47,29 +46,25 @@
         .badge-green { background-color: #dcfce7; color: #166534; }
         .badge-indigo { background-color: #e0e7ff; color: #4338ca; }
         
-        /* 既存の table 設定をアップグレード */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 1.5rem; /* 少し余裕を持たせる */
+            margin-top: 1.5rem;
             margin-bottom: 1.5rem;
         }
         
-        /* セルと見出しに枠線と余白を追加 */
         th, td {
-            border: 1px solid #ddd; /* 薄いグレーの枠線 */
-            padding: 12px;          /* 文字の周りのゆとり */
+            border: 1px solid #ddd;
+            padding: 12px;
             text-align: left;
         }
         
-        /* 見出し部分に薄い背景色をつける */
         th {
             background-color: #f8f9fa;
             font-weight: bold;
         }
         
-        /* 箇条書き（ul, ol）の余白も確保しておくと安心です */
-        #output ul, #output ol {
+        #ai-output ul, #ai-output ol {
             padding-left: 2rem;
             margin-bottom: 1rem;
         }
@@ -88,47 +83,27 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        /* 表を囲むコンテナに横スクロールを許可 */
-        #output {
+        #ai-output {
             word-wrap: break-word;
             overflow-wrap: break-word;
         }
         
-        #output table {
-            display: block;      /* スマホでスクロールさせるために必要 */
-            overflow-x: auto;    /* 横方向のはみ出しをスクロール可能に */
-            white-space: nowrap; /* セル内での意図しない改行を防ぐ（お好みで） */
-            -webkit-overflow-scrolling: touch; /* iOSでのスクロールを滑らかに */
+        #ai-output table {
+            display: block;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
-        /* スマホ向けの調整（画面幅が768px以下の場合） */
         @media (max-width: 768px) {
-            body {
-                padding: 10px; /* 全体の余白を少し詰める */
-            }
-        
-            h1 {
-                font-size: 1.5rem; /* タイトルを少し小さくして一行に収まりやすく */
-            }
-        
-            #output {
-                font-size: 16px; /* スマホで読みやすい標準サイズ（16px以上だとズームされにくい） */
-                line-height: 1.6; /* 行間を広げて読みやすく */
-            }
-        
-            th, td {
-                padding: 8px 10px; /* セル内の余白をスマホ用に微調整 */
-                font-size: 14px;    /* 表の中は少し小さくして情報を詰め込む */
-            }
+            body { padding: 10px; }
+            h1 { font-size: 1.5rem; }
+            #ai-output { font-size: 16px; line-height: 1.6; }
+            th, td { padding: 8px 10px; font-size: 14px; }
         }
-        textarea {
-            font-size: 16px; /* 入力時に勝手にズームされるのを防ぐ（iOS対策） */
-            width: 100%;
-            box-sizing: border-box; /* 枠線がはみ出さないように計算 */
-        }
+        textarea { font-size: 16px; width: 100%; box-sizing: border-box; }
         
         button {
-            min-height: 44px; /* Appleの推奨する最小タップ領域 */
-            width: 100%;      /* スマホではボタンを横いっぱいに広げると押しやすい */
+            min-height: 44px;
+            width: 100%;
             margin-top: 10px;
         }
     </style>
@@ -136,12 +111,17 @@
 <body class="p-4 md:p-8">
 
     <div class="max-w-4xl mx-auto">
+        <div class="flex justify-end mb-4">
+            <a href="settings.html" class="text-indigo-600 hover:text-indigo-800 font-medium bg-white px-4 py-2 rounded-full shadow-sm border border-indigo-100 transition">
+                ⚙️ 志望校・名前を設定する
+            </a>
+        </div>
+
         <header class="text-center mb-10">
             <h1 class="text-3xl md:text-4xl font-bold text-blue-900 mb-2">大学受験 模試・共通テスト対策ガイド</h1>
-            <p class="text-gray-600">最新情報とAIによるパーソナライズ学習支援</p>
+            <p id="welcome-message" class="text-gray-600">最新情報とAIによるパーソナライズ学習支援</p>
         </header>
 
-        <!-- AI Assistant Tools -->
         <div id="ai-tools" class="grid md:grid-cols-1 gap-6 mb-10">
             <section class="section-card ai-section">
                 <span class="badge badge-indigo">✨ Gemini AI アシスタント</span>
@@ -150,18 +130,18 @@
                 <div class="space-y-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">現在の悩みや苦手な単元を入力してください</label>
-                        <textarea id="ai-input" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none" rows="3" placeholder="例：数学の『ベクトル』が苦手です。次の模試までに何をすべきか教えてください。"></textarea>
+                        <textarea id="ai-input" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none" rows="3" placeholder="例：数学の『ベクトル』が苦手です。"></textarea>
                     </div>
                     
-                    <div class="flex flex-wrap gap-2">
-                        <button onclick="askAI('analysis')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-medium transition flex items-center">
-                            ✨ 弱点分析アドバイス
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                        <button onclick="askAI('analysis')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-medium transition flex items-center justify-center">
+                            ✨ 弱点分析
                         </button>
-                        <button onclick="askAI('schedule')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition flex items-center">
-                            ✨ 学習計画を生成
+                        <button onclick="askAI('schedule')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition flex items-center justify-center">
+                            ✨ 学習計画
                         </button>
-                        <button onclick="askAI('mental')" class="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-lg font-medium transition flex items-center">
-                            ✨ 受験お悩み相談
+                        <button onclick="askAI('mental')" class="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-lg font-medium transition flex items-center justify-center">
+                            ✨ お悩み相談
                         </button>
                     </div>
 
@@ -176,64 +156,18 @@
             </section>
         </div>
 
-        <!-- Section 1: 模試の種類 -->
         <section class="section-card">
             <span class="badge badge-blue">基礎知識</span>
             <h2 class="text-xl font-bold mb-4">1. 模試の種類と特徴</h2>
             <table>
                 <thead>
-                    <tr>
-                        <th>種類</th>
-                        <th>主な特徴・目的</th>
-                    </tr>
+                    <tr><th>種類</th><th>主な特徴・目的</th></tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td><strong>共通テスト模試</strong></td>
-                        <td>マーク式。形式への慣れ、時間配分の確認。</td>
-                    </tr>
-                    <tr>
-                        <td><strong>記述模試</strong></td>
-                        <td>国公立二次・私大対策。論述力・記述力の測定。</td>
-                    </tr>
-                    <tr>
-                        <td><strong>冠模試（大学別）</strong></td>
-                        <td>特定大の入試形式を完全再現。本番の予行演習。</td>
-                    </tr>
-                    <tr>
-                        <td><strong>進研模試</strong></td>
-                        <td>受験者数が最大級。基礎力の網羅的確認。</td>
-                    </tr>
+                    <tr><td><strong>共通テスト模試</strong></td><td>マーク式。形式への慣れ。</td></tr>
+                    <tr><td><strong>記述模試</strong></td><td>国公立二次・私大対策。</td></tr>
                 </tbody>
             </table>
-        </section>
-
-        <!-- Section 2: 成績表の分析 -->
-        <section class="section-card" style="border-left-color: #10b981;">
-            <span class="badge badge-green">分析</span>
-            <h2 class="text-xl font-bold mb-4">2. 成績表を「武器」に変える</h2>
-            <div class="space-y-4">
-                <div class="p-3 bg-green-50 rounded border-l-4 border-green-500">
-                    <p class="font-bold">設問別正答率のチェック</p>
-                    <p class="text-sm">「周囲が解けているのに自分が落とした問題」を見つける。ここが伸び代です。</p>
-                </div>
-                <div class="p-3 bg-blue-50 rounded border-l-4 border-blue-500">
-                    <p class="font-bold">志望者内順位の推移</p>
-                    <p class="text-sm">判定（A〜E）に一喜一憂せず、ライバルたちの中での「立ち位置」を見ます。</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section 3: 独学戦略 -->
-        <section class="section-card" style="border-left-color: #6366f1;">
-            <span class="badge badge-indigo">独学</span>
-            <h2 class="text-xl font-bold mb-4">3. 塾なしで共通テストを突破する</h2>
-            <p class="mb-3">独学成功の3要素：</p>
-            <ul class="list-disc ml-5 space-y-2 text-gray-700">
-                <li><strong>情報の武器</strong>：YouTube、共通テスト特化型参考書の活用。</li>
-                <li><strong>締め切りの設定</strong>：模試を目標にした月間スケジュールの作成。</li>
-                <li><strong>外部の目</strong>：模試を受け、学校の先生に質問する。</li>
-            </ul>
         </section>
 
         <footer class="text-center text-gray-500 text-sm mt-12 pb-8">
@@ -242,12 +176,18 @@
     </div>
 
     <script>
-        const apiKey = ""; // APIキーは自動的に提供されます
+        // ページロード時に名前を反映
+        window.addEventListener('DOMContentLoaded', () => {
+            const name = localStorage.getItem('user-name');
+            if (name) {
+                document.getElementById('welcome-message').innerText = `${name}さんのためのパーソナライズ学習支援`;
+            }
+        });
 
         async function askAI(type) {
             const userInput = document.getElementById('ai-input').value.trim();
             const container = document.getElementById('ai-response-container');
-            const output = document.getElementById('ai-output');
+            const output = document.getElementById('ai-output'); // あなたの元のコードに合わせました
             const loading = document.getElementById('loading');
 
             if (!userInput) {
@@ -255,7 +195,12 @@
                 return;
             }
 
-            // UIの準備
+            // LocalStorageからデータを取得（settings.htmlで保存したもの）
+            const name = localStorage.getItem('user-name') || '相談者';
+            const univ = localStorage.getItem('target-univ') || '未設定';
+            const dev = localStorage.getItem('current-dev') || '未設定';
+            const note = localStorage.getItem('grades-note') || '未設定';
+
             container.classList.remove('hidden');
             loading.classList.remove('hidden');
             output.innerHTML = "";
@@ -263,46 +208,57 @@
             let systemPrompt = "";
             switch(type) {
                 case 'analysis':
-                    systemPrompt = "あなたは大学受験のプロ講師です。ユーザーが入力した苦手分野や模試の結果に対し、具体的な原因分析と、今日からできる3つの克服ステップを日本語で提案してください。";
+                    systemPrompt = "あなたは大学受験のプロ講師です。具体的な克服ステップを提案してください。";
                     break;
                 case 'schedule':
-                    systemPrompt = "あなたは学習プランナーです。ユーザーの苦手科目や目標に基づき、1週間の具体的な学習スケジュールを時間配分も含めて日本語で作成してください。";
+                    systemPrompt = "あなたは学習プランナーです。1週間のスケジュールを作成してください。";
                     break;
                 case 'mental':
-                    systemPrompt = "あなたは親身な教育アドバイザーです。受験生の不安やモチベーション低下に対し、心理的なサポートと、前向きになれるアドバイスを日本語で提供してください。";
+                    systemPrompt = "あなたは親身な教育アドバイザーです。不安に寄り添ってください。";
                     break;
             }
 
+            // ユーザー情報をプロンプトに組み込む
+            const fullSystemPrompt = `
+${systemPrompt}
+
+【相談者情報】
+名前：${name}
+志望校：${univ}
+現在の偏差値：${dev}
+状況：${note}
+
+【指示】
+回答の冒頭で必ず「${name}さん、こんにちは！」などと名前を呼んでください。
+${name}さんの状況に寄り添って日本語で回答してください。
+`;
+
             try {
-                // 修正後
                 const response = await fetchWithRetry('/api/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         prompt: userInput,
-                        systemPrompt: systemPrompt
+                        systemPrompt: fullSystemPrompt
                     })
                 });
                 const data = await response.json();
-                const text = data.candidates?.[0]?.content?.parts?.[0]?.text || "申し訳ありません。回答を生成できませんでした。";
+                const text = data.candidates?.[0]?.content?.parts?.[0]?.text || "回答を生成できませんでした。";
                 
-                // マークダウン風のフォーマット処理（簡易）
-                marked.setOptions({
-                    breaks: true,  // 改行を<br>に変換する
-                    gfm: true      // GitHubスタイルのMarkdownを有効にする
-                });
+                marked.setOptions({ breaks: true, gfm: true });
                 output.innerHTML = marked.parse(text);
+                
                 if (window.MathJax) {
                     MathJax.typesetPromise();
                 }
             } catch (error) {
-                output.innerHTML = `<p class="text-red-500">エラーが発生しました。時間をおいて再度お試しください。</p>`;
+                output.innerHTML = `<p class="text-red-500">エラーが発生しました。</p>`;
             } finally {
                 loading.classList.add('hidden');
             }
         }
 
-        async function fetchWithRetry(url, options, retries = 5, backoff = 1000) {
+        async function fetchWithRetry(url, options, retries = 3, backoff = 1000) {
             try {
                 const response = await fetch(url, options);
                 if (!response.ok && retries > 0) throw new Error();
