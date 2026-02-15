@@ -285,12 +285,22 @@ ${name}さんの状況に寄り添って日本語で回答してください。
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        message: userInput,
+                        message: userInput, 
                         systemPrompt: fullSystemPrompt
                     })
                 });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'サーバーエラーが発生しました');
+                }
+
                 const data = await response.json();
-                const text = data.candidates?.[0]?.content?.parts?.[0]?.text || "回答を生成できませんでした。";
+                
+                // データの形がどちら（Gemini直 or 整理済み）でも動くように判定
+                const text = data.text || 
+                             (data.candidates?.[0]?.content?.parts?.[0]?.text) || 
+                             "回答の解析に失敗しました。";
                 
                 marked.setOptions({ breaks: true, gfm: true });
                 output.innerHTML = marked.parse(text);
@@ -299,12 +309,11 @@ ${name}さんの状況に寄り添って日本語で回答してください。
                     MathJax.typesetPromise();
                 }
             } catch (error) {
-                output.innerHTML = `<p class="text-red-500">エラーが発生しました。</p>`;
+                console.error("詳細エラー:", error); // これでF12のコンソールに本当の理由が出ます
+                output.innerHTML = `<p class="text-red-500">エラーが発生しました: ${error.message}</p>`;
             } finally {
                 loading.classList.add('hidden');
             }
-        }
-
         async function fetchWithRetry(url, options, retries = 3, backoff = 1000) {
             try {
                 const response = await fetch(url, options);
