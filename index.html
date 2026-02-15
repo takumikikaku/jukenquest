@@ -295,15 +295,18 @@ ${name}さんの状況に寄り添って日本語で回答してください。
                     throw new Error(errorData.error || 'サーバーエラーが発生しました');
                 }
 
-                const data = await response.json();
-                
-                // データの形がどちら（Gemini直 or 整理済み）でも動くように判定
-                const text = data.text || 
-                             (data.candidates?.[0]?.content?.parts?.[0]?.text) || 
-                             "回答の解析に失敗しました。";
-                
-                marked.setOptions({ breaks: true, gfm: true });
-                output.innerHTML = marked.parse(text);
+            // --- ここを修正 ---
+            const data = await response.json();
+            
+            // 1. もし data.text があればそれを使う（Vercel側で整理済みの場合）
+            // 2. なければ Gemini の生の階層 (data.candidates...) を探す
+            const text = data.text || 
+                         (data.candidates?.[0]?.content?.parts?.[0]?.text) || 
+                         "回答の解析に失敗しました。データ構造を確認してください。";
+            
+            marked.setOptions({ breaks: true, gfm: true });
+            output.innerHTML = marked.parse(text);
+            // --- 修正ここまで ---
                 
                 if (window.MathJax) {
                     MathJax.typesetPromise();
