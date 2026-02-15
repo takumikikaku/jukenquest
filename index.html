@@ -285,7 +285,7 @@ ${name}さんの状況に寄り添って日本語で回答してください。
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        prompt: userInput,
+                        message: userInput,
                         systemPrompt: fullSystemPrompt
                     })
                 });
