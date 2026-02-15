@@ -266,7 +266,7 @@
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        message: userInput, // api/chat.jsに合わせてmessageにしています
+                        prompt: userInput, // api/chat.jsに合わせてmessageにしています
                         systemPrompt: fullSystemPrompt
                     })
                 });
