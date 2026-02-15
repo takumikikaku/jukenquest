@@ -262,7 +262,7 @@
             const fullSystemPrompt = `${systemPrompt}\n\n相談者：${name}\n志望校：${univ}\n偏差値：${dev}\n状況：${note}\n\n冒頭で「${name}さん、こんにちは！」と呼びかけ、親身に回答してください。`;
 
             try {
-                const response = await fetchWithRetry('/api/chat.js', {
+                const response = await fetchWithRetry('/api/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
