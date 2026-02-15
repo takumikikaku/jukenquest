@@ -7,35 +7,20 @@ export default async function handler(req, res) {
   const { prompt, systemPrompt } = req.body;
   const apiKey = process.env.GEMINI_API_KEY;
 
-  if (!apiKey) {
-    return res.status(500).json({ error: 'APIキーが設定されていません。' });
-  }
-
   try {
+    // ユーザー指定のモデル名に合わせてURLを変更（必要に応じて調整してください）
     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        contents: [{
-          parts: [{
-            // システムプロンプトとユーザーの質問を1つにまとめて送るのが最も確実です
-            text: `システム指示: ${systemPrompt}\n\nユーザーの質問: ${prompt}`
-          }]
-        }]
+        contents: [{ parts: [{ text: prompt }] }],
+        systemInstruction: { parts: [{ text: systemPrompt }] }
       })
     });
 
     const data = await response.json();
-
-    // Googleからエラーが返ってきた場合にその内容をフロント側に伝える
-    if (data.error) {
-      console.error('Gemini API Error:', data.error);
-      return res.status(data.error.code || 500).json({ error: data.error.message });
-    }
-
     res.status(200).json(data);
   } catch (error) {
-    console.error('Internal Error:', error);
-    res.status(500).json({ error: 'サーバー内部でエラーが発生しました。' });
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 }
