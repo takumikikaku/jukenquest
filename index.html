@@ -1,318 +1,318 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>大学受験 模試・共通テスト対策ガイド & AI学習アシスタント</title>
-    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      window.MathJax = {
-        tex: {
-          inlineMath: [['$', '$'], ['\\(', '\\)']]
-        }
-      };
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
-        body {
-            font-family: 'Noto Sans JP', sans-serif;
-            background-color: #f1f5f9;
-            color: #1e293b;
-        }
-        .section-card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-            margin-bottom: 2rem;
-            padding: 1.5rem;
-            border-left: 6px solid #3b82f6;
-        }
-        .ai-section {
-            background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%);
-            border: 2px solid #bfdbfe;
-            border-left: 6px solid #6366f1;
-        }
-        .badge {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            font-size: 0.875rem;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-        }
-        .badge-blue { background-color: #dbeafe; color: #1e40af; }
-        .badge-green { background-color: #dcfce7; color: #166534; }
-        .badge-indigo { background-color: #e0e7ff; color: #4338ca; }
-        
-        /* 既存の table 設定をアップグレード */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 1.5rem; /* 少し余裕を持たせる */
-            margin-bottom: 1.5rem;
-        }
-        
-        /* セルと見出しに枠線と余白を追加 */
-        th, td {
-            border: 1px solid #ddd; /* 薄いグレーの枠線 */
-            padding: 12px;          /* 文字の周りのゆとり */
-            text-align: left;
-        }
-        
-        /* 見出し部分に薄い背景色をつける */
-        th {
-            background-color: #f8f9fa;
-            font-weight: bold;
-        }
-        
-        /* 箇条書き（ul, ol）の余白も確保しておくと安心です */
-        #output ul, #output ol {
-            padding-left: 2rem;
-            margin-bottom: 1rem;
-        }
-        .loading-spinner {
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #3b82f6;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            animation: spin 1s linear infinite;
-            display: inline-block;
-            margin-right: 8px;
-            vertical-align: middle;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        /* 表を囲むコンテナに横スクロールを許可 */
-        #output {
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-        }
-        
-        #output table {
-            display: block;      /* スマホでスクロールさせるために必要 */
-            overflow-x: auto;    /* 横方向のはみ出しをスクロール可能に */
-            white-space: nowrap; /* セル内での意図しない改行を防ぐ（お好みで） */
-            -webkit-overflow-scrolling: touch; /* iOSでのスクロールを滑らかに */
-        }
-        /* スマホ向けの調整（画面幅が768px以下の場合） */
-        @media (max-width: 768px) {
-            body {
-                padding: 10px; /* 全体の余白を少し詰める */
-            }
-        
-            h1 {
-                font-size: 1.5rem; /* タイトルを少し小さくして一行に収まりやすく */
-            }
-        
-            #output {
-                font-size: 16px; /* スマホで読みやすい標準サイズ（16px以上だとズームされにくい） */
-                line-height: 1.6; /* 行間を広げて読みやすく */
-            }
-        
-            th, td {
-                padding: 8px 10px; /* セル内の余白をスマホ用に微調整 */
-                font-size: 14px;    /* 表の中は少し小さくして情報を詰め込む */
-            }
-        }
-        textarea {
-            font-size: 16px; /* 入力時に勝手にズームされるのを防ぐ（iOS対策） */
-            width: 100%;
-            box-sizing: border-box; /* 枠線がはみ出さないように計算 */
-        }
-        
-        button {
-            min-height: 44px; /* Appleの推奨する最小タップ領域 */
-            width: 100%;      /* スマホではボタンを横いっぱいに広げると押しやすい */
-            margin-top: 10px;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>大学受験 模試・共通テスト対策ガイド & AI学習アシスタント</title>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: #f1f5f9;
+            color: #1e293b;
+        }
+        .section-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            border-left: 6px solid #3b82f6;
+        }
+        .ai-section {
+            background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%);
+            border: 2px solid #bfdbfe;
+            border-left: 6px solid #6366f1;
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        .badge-blue { background-color: #dbeafe; color: #1e40af; }
+        .badge-green { background-color: #dcfce7; color: #166534; }
+        .badge-indigo { background-color: #e0e7ff; color: #4338ca; }
+        
+        /* 既存の table 設定をアップグレード */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem; /* 少し余裕を持たせる */
+            margin-bottom: 1.5rem;
+        }
+        
+        /* セルと見出しに枠線と余白を追加 */
+        th, td {
+            border: 1px solid #ddd; /* 薄いグレーの枠線 */
+            padding: 12px;          /* 文字の周りのゆとり */
+            text-align: left;
+        }
+        
+        /* 見出し部分に薄い背景色をつける */
+        th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+        
+        /* 箇条書き（ul, ol）の余白も確保しておくと安心です */
+        #output ul, #output ol {
+            padding-left: 2rem;
+            margin-bottom: 1rem;
+        }
+        .loading-spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3b82f6;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        /* 表を囲むコンテナに横スクロールを許可 */
+        #output {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        #output table {
+            display: block;      /* スマホでスクロールさせるために必要 */
+            overflow-x: auto;    /* 横方向のはみ出しをスクロール可能に */
+            white-space: nowrap; /* セル内での意図しない改行を防ぐ（お好みで） */
+            -webkit-overflow-scrolling: touch; /* iOSでのスクロールを滑らかに */
+        }
+        /* スマホ向けの調整（画面幅が768px以下の場合） */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px; /* 全体の余白を少し詰める */
+            }
+        
+            h1 {
+                font-size: 1.5rem; /* タイトルを少し小さくして一行に収まりやすく */
+            }
+        
+            #output {
+                font-size: 16px; /* スマホで読みやすい標準サイズ（16px以上だとズームされにくい） */
+                line-height: 1.6; /* 行間を広げて読みやすく */
+            }
+        
+            th, td {
+                padding: 8px 10px; /* セル内の余白をスマホ用に微調整 */
+                font-size: 14px;    /* 表の中は少し小さくして情報を詰め込む */
+            }
+        }
+        textarea {
+            font-size: 16px; /* 入力時に勝手にズームされるのを防ぐ（iOS対策） */
+            width: 100%;
+            box-sizing: border-box; /* 枠線がはみ出さないように計算 */
+        }
+        
+        button {
+            min-height: 44px; /* Appleの推奨する最小タップ領域 */
+            width: 100%;      /* スマホではボタンを横いっぱいに広げると押しやすい */
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body class="p-4 md:p-8">
 
-    <div class="max-w-4xl mx-auto">
-        <header class="text-center mb-10">
-            <h1 class="text-3xl md:text-4xl font-bold text-blue-900 mb-2">大学受験 模試・共通テスト対策ガイド</h1>
-            <p class="text-gray-600">最新情報とAIによるパーソナライズ学習支援</p>
-        </header>
+    <div class="max-w-4xl mx-auto">
+        <header class="text-center mb-10">
+            <h1 class="text-3xl md:text-4xl font-bold text-blue-900 mb-2">大学受験 模試・共通テスト対策ガイド</h1>
+            <p class="text-gray-600">最新情報とAIによるパーソナライズ学習支援</p>
+        </header>
 
-        <!-- AI Assistant Tools -->
-        <div id="ai-tools" class="grid md:grid-cols-1 gap-6 mb-10">
-            <section class="section-card ai-section">
-                <span class="badge badge-indigo">✨ Gemini AI アシスタント</span>
-                <h2 class="text-xl font-bold mb-4">AIに学習相談をする</h2>
-                
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">現在の悩みや苦手な単元を入力してください</label>
-                        <textarea id="ai-input" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none" rows="3" placeholder="例：数学の『ベクトル』が苦手です。次の模試までに何をすべきか教えてください。"></textarea>
-                    </div>
-                    
-                    <div class="flex flex-wrap gap-2">
-                        <button onclick="askAI('analysis')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-medium transition flex items-center">
-                            ✨ 弱点分析アドバイス
-                        </button>
-                        <button onclick="askAI('schedule')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition flex items-center">
-                            ✨ 学習計画を生成
-                        </button>
-                        <button onclick="askAI('mental')" class="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-lg font-medium transition flex items-center">
-                            ✨ 受験お悩み相談
-                        </button>
-                    </div>
+        <!-- AI Assistant Tools -->
+        <div id="ai-tools" class="grid md:grid-cols-1 gap-6 mb-10">
+            <section class="section-card ai-section">
+                <span class="badge badge-indigo">✨ Gemini AI アシスタント</span>
+                <h2 class="text-xl font-bold mb-4">AIに学習相談をする</h2>
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">現在の悩みや苦手な単元を入力してください</label>
+                        <textarea id="ai-input" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none" rows="3" placeholder="例：数学の『ベクトル』が苦手です。次の模試までに何をすべきか教えてください。"></textarea>
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="askAI('analysis')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-medium transition flex items-center">
+                            ✨ 弱点分析アドバイス
+                        </button>
+                        <button onclick="askAI('schedule')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition flex items-center">
+                            ✨ 学習計画を生成
+                        </button>
+                        <button onclick="askAI('mental')" class="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-lg font-medium transition flex items-center">
+                            ✨ 受験お悩み相談
+                        </button>
+                    </div>
 
-                    <div id="ai-response-container" class="hidden mt-6 p-4 bg-white border rounded-xl shadow-inner overflow-hidden">
-                        <div id="loading" class="hidden items-center justify-center py-4">
-                            <div class="loading-spinner"></div>
-                            <span class="text-indigo-600 font-medium">AIが考えています...</span>
-                        </div>
-                        <div id="ai-output" class="prose prose-blue max-w-none text-gray-800 leading-relaxed"></div>
-                    </div>
-                </div>
-            </section>
-        </div>
+                    <div id="ai-response-container" class="hidden mt-6 p-4 bg-white border rounded-xl shadow-inner overflow-hidden">
+                        <div id="loading" class="hidden items-center justify-center py-4">
+                            <div class="loading-spinner"></div>
+                            <span class="text-indigo-600 font-medium">AIが考えています...</span>
+                        </div>
+                        <div id="ai-output" class="prose prose-blue max-w-none text-gray-800 leading-relaxed"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
 
-        <!-- Section 1: 模試の種類 -->
-        <section class="section-card">
-            <span class="badge badge-blue">基礎知識</span>
-            <h2 class="text-xl font-bold mb-4">1. 模試の種類と特徴</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>種類</th>
-                        <th>主な特徴・目的</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>共通テスト模試</strong></td>
-                        <td>マーク式。形式への慣れ、時間配分の確認。</td>
-                    </tr>
-                    <tr>
-                        <td><strong>記述模試</strong></td>
-                        <td>国公立二次・私大対策。論述力・記述力の測定。</td>
-                    </tr>
-                    <tr>
-                        <td><strong>冠模試（大学別）</strong></td>
-                        <td>特定大の入試形式を完全再現。本番の予行演習。</td>
-                    </tr>
-                    <tr>
-                        <td><strong>進研模試</strong></td>
-                        <td>受験者数が最大級。基礎力の網羅的確認。</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
+        <!-- Section 1: 模試の種類 -->
+        <section class="section-card">
+            <span class="badge badge-blue">基礎知識</span>
+            <h2 class="text-xl font-bold mb-4">1. 模試の種類と特徴</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>種類</th>
+                        <th>主な特徴・目的</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>共通テスト模試</strong></td>
+                        <td>マーク式。形式への慣れ、時間配分の確認。</td>
+                    </tr>
+                    <tr>
+                        <td><strong>記述模試</strong></td>
+                        <td>国公立二次・私大対策。論述力・記述力の測定。</td>
+                    </tr>
+                    <tr>
+                        <td><strong>冠模試（大学別）</strong></td>
+                        <td>特定大の入試形式を完全再現。本番の予行演習。</td>
+                    </tr>
+                    <tr>
+                        <td><strong>進研模試</strong></td>
+                        <td>受験者数が最大級。基礎力の網羅的確認。</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
 
-        <!-- Section 2: 成績表の分析 -->
-        <section class="section-card" style="border-left-color: #10b981;">
-            <span class="badge badge-green">分析</span>
-            <h2 class="text-xl font-bold mb-4">2. 成績表を「武器」に変える</h2>
-            <div class="space-y-4">
-                <div class="p-3 bg-green-50 rounded border-l-4 border-green-500">
-                    <p class="font-bold">設問別正答率のチェック</p>
-                    <p class="text-sm">「周囲が解けているのに自分が落とした問題」を見つける。ここが伸び代です。</p>
-                </div>
-                <div class="p-3 bg-blue-50 rounded border-l-4 border-blue-500">
-                    <p class="font-bold">志望者内順位の推移</p>
-                    <p class="text-sm">判定（A〜E）に一喜一憂せず、ライバルたちの中での「立ち位置」を見ます。</p>
-                </div>
-            </div>
-        </section>
+        <!-- Section 2: 成績表の分析 -->
+        <section class="section-card" style="border-left-color: #10b981;">
+            <span class="badge badge-green">分析</span>
+            <h2 class="text-xl font-bold mb-4">2. 成績表を「武器」に変える</h2>
+            <div class="space-y-4">
+                <div class="p-3 bg-green-50 rounded border-l-4 border-green-500">
+                    <p class="font-bold">設問別正答率のチェック</p>
+                    <p class="text-sm">「周囲が解けているのに自分が落とした問題」を見つける。ここが伸び代です。</p>
+                </div>
+                <div class="p-3 bg-blue-50 rounded border-l-4 border-blue-500">
+                    <p class="font-bold">志望者内順位の推移</p>
+                    <p class="text-sm">判定（A〜E）に一喜一憂せず、ライバルたちの中での「立ち位置」を見ます。</p>
+                </div>
+            </div>
+        </section>
 
-        <!-- Section 3: 独学戦略 -->
-        <section class="section-card" style="border-left-color: #6366f1;">
-            <span class="badge badge-indigo">独学</span>
-            <h2 class="text-xl font-bold mb-4">3. 塾なしで共通テストを突破する</h2>
-            <p class="mb-3">独学成功の3要素：</p>
-            <ul class="list-disc ml-5 space-y-2 text-gray-700">
-                <li><strong>情報の武器</strong>：YouTube、共通テスト特化型参考書の活用。</li>
-                <li><strong>締め切りの設定</strong>：模試を目標にした月間スケジュールの作成。</li>
-                <li><strong>外部の目</strong>：模試を受け、学校の先生に質問する。</li>
-            </ul>
-        </section>
+        <!-- Section 3: 独学戦略 -->
+        <section class="section-card" style="border-left-color: #6366f1;">
+            <span class="badge badge-indigo">独学</span>
+            <h2 class="text-xl font-bold mb-4">3. 塾なしで共通テストを突破する</h2>
+            <p class="mb-3">独学成功の3要素：</p>
+            <ul class="list-disc ml-5 space-y-2 text-gray-700">
+                <li><strong>情報の武器</strong>：YouTube、共通テスト特化型参考書の活用。</li>
+                <li><strong>締め切りの設定</strong>：模試を目標にした月間スケジュールの作成。</li>
+                <li><strong>外部の目</strong>：模試を受け、学校の先生に質問する。</li>
+            </ul>
+        </section>
 
-        <footer class="text-center text-gray-500 text-sm mt-12 pb-8">
-            <p>© 大学受験 模試活用ガイド & AIアシスタント</p>
-        </footer>
-    </div>
+        <footer class="text-center text-gray-500 text-sm mt-12 pb-8">
+            <p>© 大学受験 模試活用ガイド & AIアシスタント</p>
+        </footer>
+    </div>
 
-    <script>
-        const apiKey = ""; // APIキーは自動的に提供されます
+    <script>
+        const apiKey = ""; // APIキーは自動的に提供されます
 
-        async function askAI(type) {
-            const userInput = document.getElementById('ai-input').value.trim();
-            const container = document.getElementById('ai-response-container');
-            const output = document.getElementById('ai-output');
-            const loading = document.getElementById('loading');
+        async function askAI(type) {
+            const userInput = document.getElementById('ai-input').value.trim();
+            const container = document.getElementById('ai-response-container');
+            const output = document.getElementById('ai-output');
+            const loading = document.getElementById('loading');
 
-            if (!userInput) {
-                alert("質問内容を入力してください。");
-                return;
-            }
+            if (!userInput) {
+                alert("質問内容を入力してください。");
+                return;
+            }
 
-            // UIの準備
-            container.classList.remove('hidden');
-            loading.classList.remove('hidden');
-            output.innerHTML = "";
-            
-            let systemPrompt = "";
-            switch(type) {
-                case 'analysis':
-                    systemPrompt = "あなたは大学受験のプロ講師です。ユーザーが入力した苦手分野や模試の結果に対し、具体的な原因分析と、今日からできる3つの克服ステップを日本語で提案してください。";
-                    break;
-                case 'schedule':
-                    systemPrompt = "あなたは学習プランナーです。ユーザーの苦手科目や目標に基づき、1週間の具体的な学習スケジュールを時間配分も含めて日本語で作成してください。";
-                    break;
-                case 'mental':
-                    systemPrompt = "あなたは親身な教育アドバイザーです。受験生の不安やモチベーション低下に対し、心理的なサポートと、前向きになれるアドバイスを日本語で提供してください。";
-                    break;
-            }
+            // UIの準備
+            container.classList.remove('hidden');
+            loading.classList.remove('hidden');
+            output.innerHTML = "";
+            
+            let systemPrompt = "";
+            switch(type) {
+                case 'analysis':
+                    systemPrompt = "あなたは大学受験のプロ講師です。ユーザーが入力した苦手分野や模試の結果に対し、具体的な原因分析と、今日からできる3つの克服ステップを日本語で提案してください。";
+                    break;
+                case 'schedule':
+                    systemPrompt = "あなたは学習プランナーです。ユーザーの苦手科目や目標に基づき、1週間の具体的な学習スケジュールを時間配分も含めて日本語で作成してください。";
+                    break;
+                case 'mental':
+                    systemPrompt = "あなたは親身な教育アドバイザーです。受験生の不安やモチベーション低下に対し、心理的なサポートと、前向きになれるアドバイスを日本語で提供してください。";
+                    break;
+            }
 
-            try {
-                // 修正後
-                const response = await fetchWithRetry('/api/chat', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        prompt: userInput,
-                        systemPrompt: systemPrompt
-                    })
-                });
-                const data = await response.json();
-                const text = data.candidates?.[0]?.content?.parts?.[0]?.text || "申し訳ありません。回答を生成できませんでした。";
-                
-                // マークダウン風のフォーマット処理（簡易）
-                marked.setOptions({
-                    breaks: true,  // 改行を<br>に変換する
-                    gfm: true      // GitHubスタイルのMarkdownを有効にする
-                });
-                output.innerHTML = marked.parse(text);
-                if (window.MathJax) {
-                    MathJax.typesetPromise();
-                }
-            } catch (error) {
-                output.innerHTML = `<p class="text-red-500">エラーが発生しました。時間をおいて再度お試しください。</p>`;
-            } finally {
-                loading.classList.add('hidden');
-            }
-        }
+            try {
+                // 修正後
+                const response = await fetchWithRetry('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        prompt: userInput,
+                        systemPrompt: systemPrompt
+                    })
+                });
+                const data = await response.json();
+                const text = data.candidates?.[0]?.content?.parts?.[0]?.text || "申し訳ありません。回答を生成できませんでした。";
+                
+                // マークダウン風のフォーマット処理（簡易）
+                marked.setOptions({
+                    breaks: true,  // 改行を<br>に変換する
+                    gfm: true      // GitHubスタイルのMarkdownを有効にする
+                });
+                output.innerHTML = marked.parse(text);
+                if (window.MathJax) {
+                    MathJax.typesetPromise();
+                }
+            } catch (error) {
+                output.innerHTML = `<p class="text-red-500">エラーが発生しました。時間をおいて再度お試しください。</p>`;
+            } finally {
+                loading.classList.add('hidden');
+            }
+        }
 
-        async function fetchWithRetry(url, options, retries = 5, backoff = 1000) {
-            try {
-                const response = await fetch(url, options);
-                if (!response.ok && retries > 0) throw new Error();
-                return response;
-            } catch (error) {
-                if (retries === 0) throw error;
-                await new Promise(resolve => setTimeout(resolve, backoff));
-                return fetchWithRetry(url, options, retries - 1, backoff * 2);
-            }
-        }
-    </script>
+        async function fetchWithRetry(url, options, retries = 5, backoff = 1000) {
+            try {
+                const response = await fetch(url, options);
+                if (!response.ok && retries > 0) throw new Error();
+                return response;
+            } catch (error) {
+                if (retries === 0) throw error;
+                await new Promise(resolve => setTimeout(resolve, backoff));
+                return fetchWithRetry(url, options, retries - 1, backoff * 2);
+            }
+        }
+    </script>
 </body>
 </html>
