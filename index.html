@@ -222,19 +222,20 @@
         </footer>
     </div>
 
-    <script>
+<script>
         // ページロード時に名前を反映
         window.addEventListener('DOMContentLoaded', () => {
             const name = localStorage.getItem('user-name');
             if (name) {
-                document.getElementById('welcome-message').innerText = `${name}さんのためのパーソナライズ学習支援`;
+                const welcome = document.getElementById('welcome-message');
+                if(welcome) welcome.innerText = `${name}さんのためのパーソナライズ学習支援`;
             }
         });
 
         async function askAI(type) {
             const userInput = document.getElementById('ai-input').value.trim();
             const container = document.getElementById('ai-response-container');
-            const output = document.getElementById('ai-output'); // あなたの元のコードに合わせました
+            const output = document.getElementById('ai-output');
             const loading = document.getElementById('loading');
 
             if (!userInput) {
@@ -242,7 +243,6 @@
                 return;
             }
 
-            // LocalStorageからデータを取得（settings.htmlで保存したもの）
             const name = localStorage.getItem('user-name') || '相談者';
             const univ = localStorage.getItem('target-univ') || '未設定';
             const dev = localStorage.getItem('current-dev') || '未設定';
@@ -254,69 +254,38 @@
             
             let systemPrompt = "";
             switch(type) {
-                case 'analysis':
-                    systemPrompt = "あなたは大学受験のプロ講師です。具体的な克服ステップを提案してください。";
-                    break;
-                case 'schedule':
-                    systemPrompt = "あなたは学習プランナーです。1週間のスケジュールを作成してください。";
-                    break;
-                case 'mental':
-                    systemPrompt = "あなたは親身な教育アドバイザーです。不安に寄り添ってください。";
-                    break;
+                case 'analysis': systemPrompt = "あなたはプロ講師です。克服ステップを提案してください。"; break;
+                case 'schedule': systemPrompt = "あなたはプランナーです。スケジュールを作成してください。"; break;
+                case 'mental': systemPrompt = "あなたは教育アドバイザーです。不安に寄り添ってください。"; break;
             }
 
-            // ユーザー情報をプロンプトに組み込む
-            const fullSystemPrompt = `
-${systemPrompt}
-
-【相談者情報】
-名前：${name}
-志望校：${univ}
-現在の偏差値：${dev}
-状況：${note}
-
-【指示】
-回答の冒頭で必ず「${name}さん、こんにちは！」などと名前を呼んでください。
-${name}さんの状況に寄り添って日本語で回答してください。
-`;
+            const fullSystemPrompt = `${systemPrompt}\n\n相談者：${name}\n志望校：${univ}\n偏差値：${dev}\n状況：${note}\n\n冒頭で「${name}さん、こんにちは！」と呼びかけ、親身に回答してください。`;
 
             try {
                 const response = await fetchWithRetry('/api/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        message: userInput, 
+                        message: userInput, // api/chat.jsに合わせてmessageにしています
                         systemPrompt: fullSystemPrompt
                     })
                 });
 
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error || 'サーバーエラーが発生しました');
-                }
-
-            // --- ここを修正 ---
-            const data = await response.json();
-            
-            // 1. もし data.text があればそれを使う（Vercel側で整理済みの場合）
-            // 2. なければ Gemini の生の階層 (data.candidates...) を探す
-            const text = data.text || 
-                         (data.candidates?.[0]?.content?.parts?.[0]?.text) || 
-                         "回答の解析に失敗しました。データ構造を確認してください。";
-            
-            marked.setOptions({ breaks: true, gfm: true });
-            output.innerHTML = marked.parse(text);
-            // --- 修正ここまで ---
+                const data = await response.json();
+                // どちらのデータ構造でも動くようにガード
+                const text = data.text || (data.candidates?.[0]?.content?.parts?.[0]?.text) || "回答の取得に失敗しました。";
                 
-                if (window.MathJax) {
-                    MathJax.typesetPromise();
-                }
+                marked.setOptions({ breaks: true, gfm: true });
+                output.innerHTML = marked.parse(text);
+                
+                if (window.MathJax) { MathJax.typesetPromise(); }
             } catch (error) {
-                console.error("詳細エラー:", error); // これでF12のコンソールに本当の理由が出ます
-                output.innerHTML = `<p class="text-red-500">エラーが発生しました: ${error.message}</p>`;
+                output.innerHTML = `<p class="text-red-500">エラーが発生しました。コードの末尾まで正しくコピーされているか確認してください。</p>`;
             } finally {
                 loading.classList.add('hidden');
             }
+        }
+
         async function fetchWithRetry(url, options, retries = 3, backoff = 1000) {
             try {
                 const response = await fetch(url, options);
