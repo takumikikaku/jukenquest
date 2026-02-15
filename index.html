@@ -88,6 +88,49 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        /* 表を囲むコンテナに横スクロールを許可 */
+        #output {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        #output table {
+            display: block;      /* スマホでスクロールさせるために必要 */
+            overflow-x: auto;    /* 横方向のはみ出しをスクロール可能に */
+            white-space: nowrap; /* セル内での意図しない改行を防ぐ（お好みで） */
+            -webkit-overflow-scrolling: touch; /* iOSでのスクロールを滑らかに */
+        }
+        /* スマホ向けの調整（画面幅が768px以下の場合） */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px; /* 全体の余白を少し詰める */
+            }
+        
+            h1 {
+                font-size: 1.5rem; /* タイトルを少し小さくして一行に収まりやすく */
+            }
+        
+            #output {
+                font-size: 16px; /* スマホで読みやすい標準サイズ（16px以上だとズームされにくい） */
+                line-height: 1.6; /* 行間を広げて読みやすく */
+            }
+        
+            th, td {
+                padding: 8px 10px; /* セル内の余白をスマホ用に微調整 */
+                font-size: 14px;    /* 表の中は少し小さくして情報を詰め込む */
+            }
+        }
+        textarea {
+            font-size: 16px; /* 入力時に勝手にズームされるのを防ぐ（iOS対策） */
+            width: 100%;
+            box-sizing: border-box; /* 枠線がはみ出さないように計算 */
+        }
+        
+        button {
+            min-height: 44px; /* Appleの推奨する最小タップ領域 */
+            width: 100%;      /* スマホではボタンを横いっぱいに広げると押しやすい */
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body class="p-4 md:p-8">
