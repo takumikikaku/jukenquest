@@ -9,7 +9,18 @@ export default async function handler(req, res) {
 
   try {
     // ユーザー指定のモデル名に合わせてURLを変更（必要に応じて調整してください）
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0// api/chat.js
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method Not Allowed' });
+  }
+
+  const { prompt, systemPrompt } = req.body;
+  const apiKey = process.env.GEMINI_API_KEY;
+
+  try {
+    // ユーザー指定のモデル名に合わせてURLを変更（必要に応じて調整してください）
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
